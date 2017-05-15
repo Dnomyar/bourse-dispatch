@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 const request = require('request');
 const _ = require('lodash')
 
-var listener = 8083;
+var listener = 83;
 
 var server = http.createServer(app);
 server.listen(listener);
@@ -16,57 +16,57 @@ app.use(express.static(__dirname + '/'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }));
 
-app.get('/demandes-bourses', function (req, res) {
-    res.status(200);
+app.get('/demandes-bourses', function(req, res) {
+  res.status(200);
 
     // res.send(createFile([1, 2, 3]))
 
-    return request({
-        method: 'GET',
-        uri: 'http://swarmjpg.westeurope.cloudapp.azure.com:8082'
+  return request({
+      method: 'GET',
+      uri: 'http://swarmjpg.westeurope.cloudapp.azure.com:82'
     },
-        function (error, response, body) {
-            if (error) {
-                return console.error('GET Failed :', error);
+        function(error, response, body) {
+          if (error) {
+              return console.error('GET Failed :', error);
             }
-            console.log(response.statusCode);
-            var content = body;
-            console.log('Content recieved', content)
+          console.log(response.statusCode);
+          var content = body;
+          console.log('Content recieved', content)
             // Transformations sur content
-            res.send(createFile(content));
+          res.send(createFile(content));
         });
 });
 
 function createFile(entities) {
-    console.log('entities', entities)
-    var entries = _.map(entities, e => createEntries(e))
-    console.log('entries', entries)
+  console.log('entities', entities)
+  var entries = _.map(entities, e => createEntries(e))
+  console.log('entries', entries)
 
 
-    return createHeader() +
+  return createHeader() +
         _.join(entries, '') +
         createFooter();
 }
 
 function createHeader() {
-    return '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' +
+  return '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' +
         '<feed xml:base=http://services.odata.org/OData/OData.svc/' +
         'xmlns:d=http://schemas.microsoft.com/ado/2007/08/dataservices' +
         'xmlns:m=http://schemas.microsoft.com/ado/2007/08/dataservices/metadata' +
         'xmlns="http://www.w3.org/2005/Atom">' +
         '<title type="text">Bourses</title>' +
-        '<id>http://swarmjpg.westeurope.cloudapp.azure.com:8082/bourses</id>' +
+        '<id>http://swarmjpg.westeurope.cloudapp.azure.com:82/bourses</id>' +
         '<updated>2017-05-15T08:38:14Z</updated>' +
         '<link rel="self" title="Categories" href="Categories" />';
 }
 
 function createEntries(entity) {
-    console.log('createEntries', entity)
-    return '   <entry>  ' +
-        '       <id>http://swarmjpg.westeurope.cloudapp.azure.com:8082/bourses/nom1</id>  ' +
+  console.log('createEntries', entity)
+  return '   <entry>  ' +
+        '       <id>http://swarmjpg.westeurope.cloudapp.azure.com:82/bourses/nom1</id>  ' +
         '       <title type="text">nom1</title>  ' +
         '       <updated>2017-05-15T08:38:14Z</updated>  ' +
         '       <author>  ' +
@@ -93,6 +93,6 @@ function createEntries(entity) {
 }
 
 function createFooter() {
-    return '</feed>'
+  return '</feed>'
 }
 
