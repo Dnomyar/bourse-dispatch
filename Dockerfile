@@ -1,4 +1,4 @@
-FROM node:0.12.4
+FROM node:7.2.1
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
